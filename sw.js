@@ -1,5 +1,5 @@
 // 更新版を配るときは、この版番号を上げる。
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = `score-auto-scroll-${VERSION}`;
 
 const CORE = [
