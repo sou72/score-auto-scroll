@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#f7f3ea">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>楽譜スクロール</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- 3.1 楽譜一覧 -->
+  <section id="screen-list" class="screen" hidden>
+    <header class="bar">
+      <h1>楽譜一覧</h1>
+      <span id="offline-badge" class="badge" hidden>オフライン</span>
+      <button id="btn-settings" class="btn" type="button">設定</button>
+    </header>
+    <main class="scroll">
+      <ul id="score-list" class="list"></ul>
+      <p id="empty-msg" class="empty" hidden>＋を押して楽譜を追加してください</p>
+    </main>
+    <button id="btn-add" class="fab" type="button"><span class="fab-plus">＋</span> 楽譜を追加</button>
+  </section>
+
+  <!-- 3.2 演奏画面 -->
+  <section id="screen-player" class="screen" hidden>
+    <header class="bar" id="player-bar">
+      <button id="btn-back" class="btn" type="button">一覧へ戻る</button>
+      <h1 id="player-title"></h1>
+      <button id="btn-player-menu" class="btn" type="button">⋯ メニュー</button>
+    </header>
+    <div id="viewer"><div id="content"></div></div>
+    <footer id="controls">
+      <div class="speed-row">
+        <label for="speed">速度</label>
+        <input id="speed" type="range" min="0" max="100" step="1">
+        <output id="speed-out"></output>
+      </div>
+      <div class="btn-row">
+        <button id="btn-top" class="btn" type="button">先頭へ</button>
+        <button id="btn-play" class="btn primary" type="button">再生</button>
+        <button id="btn-zoom-out" class="btn" type="button">縮小</button>
+        <button id="btn-zoom-in" class="btn" type="button">拡大</button>
+      </div>
+    </footer>
+  </section>
+
+  <!-- 3.3 編集画面 -->
+  <section id="screen-editor" class="screen" hidden>
+    <header class="bar">
+      <button id="btn-edit-back" class="btn" type="button">一覧へ戻る</button>
+      <h1>編集</h1>
+      <button id="btn-edit-play" class="btn" type="button">演奏する</button>
+    </header>
+    <main class="scroll pad">
+      <label class="field">タイトル
+        <input id="ed-title" type="text" autocomplete="off" placeholder="本文の1行目が自動で入ります">
+      </label>
+      <div id="ed-text-wrap">
+        <label class="field">本文（歌詞・コード・音名など）
+          <textarea id="ed-body" spellcheck="false" placeholder="ここに貼り付けるか、入力してください"></textarea>
+        </label>
+        <p id="ed-status" class="note">入力すると自動で保存されます。</p>
+      </div>
+      <div id="ed-image-wrap" hidden>
+        <ul id="ed-pages" class="list"></ul>
+        <div class="btn-row wrap">
+          <button id="ed-add-image" class="btn" type="button">画像を追加</button>
+          <button id="ed-add-pdf" class="btn" type="button">PDFを追加</button>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <!-- 3.4 設定画面 -->
+  <section id="screen-settings" class="screen" hidden>
+    <header class="bar">
+      <button id="btn-settings-back" class="btn" type="button">一覧へ戻る</button>
+      <h1>設定</h1>
+    </header>
+    <main class="scroll pad">
+      <p class="note">ここでの初期値は、これから追加する楽譜にだけ使われます。変更はその場で保存されます。</p>
+      <div class="field">スクロール速度の初期値
+        <div class="speed-row"><input id="st-speed" type="range" min="0" max="100" step="1"><output id="st-speed-out"></output></div>
+      </div>
+      <label class="field">文字の大きさの初期値<select id="st-text-zoom"></select></label>
+      <label class="field">画像・PDFの大きさの初期値<select id="st-image-zoom"></select></label>
+      <label class="check"><input id="st-fullscreen" type="checkbox"> 再生中に全画面表示にする</label>
+      <label class="check"><input id="st-wakelock" type="checkbox"> 再生中に画面を消灯させない</label>
+      <p id="st-wakelock-note" class="note" hidden>この端末では画面の消灯防止は使えません。</p>
+      <h2>保存の状態</h2>
+      <dl id="st-storage" class="info"></dl>
+    </main>
+  </section>
+
+</div>
+
+<dialog id="dlg"><form method="dialog" id="dlg-form"><h2 id="dlg-title"></h2><div id="dlg-body"></div><div id="dlg-buttons" class="dlg-buttons"></div></form></dialog>
+<div id="busy" hidden><div class="busy-box"><p id="busy-text"></p><progress id="busy-bar" max="1" value="0"></progress></div></div>
+<div id="toast" role="status" hidden></div>
+
+<input id="file-image" type="file" accept="image/*" multiple hidden>
+<input id="file-pdf" type="file" accept="application/pdf,.pdf" hidden>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

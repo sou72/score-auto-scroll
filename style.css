@@ -1,0 +1,98 @@
+:root {
+  --bg: #f7f3ea;
+  --card: #ffffff;
+  --text: #3a3631;
+  --sub: #7a7467;
+  --line: #e2dccd;
+  --accent: #5b8a72;
+  --accent-soft: #e3eee7;
+  --danger: #b5483a;
+  --radius: 14px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+  font-family: "Hiragino Sans", "Yu Gothic UI", "Noto Sans JP", system-ui, sans-serif; font-size: 16px; }
+body { overscroll-behavior: none; }
+[hidden] { display: none !important; }
+
+#app { max-width: 640px; height: 100dvh; margin: 0 auto; position: relative; background: var(--bg); }
+.screen { display: flex; flex-direction: column; height: 100%; padding-top: env(safe-area-inset-top); }
+.scroll { flex: 1; min-height: 0; overflow-y: auto; }
+.pad { padding: 12px 16px 32px; }
+
+.bar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--line); background: var(--bg); }
+.bar h1 { flex: 1; margin: 0; font-size: 1.1rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.badge { background: #f1dfc4; color: #7a5410; border-radius: 999px; padding: 4px 10px; font-size: .85rem; }
+
+.btn { min-height: 48px; min-width: 48px; padding: 0 14px; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--card); color: var(--text); font: inherit; cursor: pointer; }
+.btn:active { background: var(--accent-soft); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; font-size: 1.15rem; min-height: 72px; }
+.btn.danger { color: var(--danger); }
+.btn:disabled { opacity: .5; }
+
+.list { list-style: none; margin: 0; padding: 12px 16px 96px; display: flex; flex-direction: column; gap: 10px; }
+.item { display: flex; align-items: stretch; gap: 8px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.item-main { flex: 1; min-width: 0; padding: 12px 14px; border: 0; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; min-height: 64px; }
+.item-title { display: block; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item-sub { display: block; margin-top: 2px; font-size: .85rem; color: var(--sub); }
+.item .btn { margin: 8px 8px 8px 0; }
+.thumb { width: 56px; height: 72px; object-fit: cover; margin: 8px 0 8px 8px; border-radius: 8px; background: #eee; }
+.item-page { align-items: center; }
+.item-page .item-main { cursor: default; }
+.item-page .btn { margin: 4px; padding: 0 10px; }
+
+.empty { text-align: center; color: var(--sub); margin: 64px 16px; }
+.note { color: var(--sub); font-size: .9rem; line-height: 1.6; }
+
+.fab { position: absolute; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); min-height: 64px; padding: 0 24px;
+  border: 0; border-radius: 999px; background: var(--accent); color: #fff; font: inherit; font-weight: 700; font-size: 1.1rem;
+  box-shadow: 0 4px 14px rgba(60, 80, 70, .3); cursor: pointer; }
+.fab-plus { font-size: 1.6rem; vertical-align: -2px; margin-right: 4px; }
+
+/* 演奏画面 */
+#viewer { flex: 1; min-height: 0; overflow: auto; background: #fff; touch-action: pan-x pan-y; overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+#content.text { margin: 0; padding: 16px 16px 40vh; font-family: "Noto Sans Mono CJK JP", "BIZ UDGothic", "MS Gothic", ui-monospace, monospace;
+  white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.6; font-size: 18px; }
+#content.pages { padding-bottom: 40vh; }
+#content.pages img { display: block; width: 100%; height: auto; margin: 0 0 2px; background: #f2f2f2; }
+#controls { padding: 8px 12px calc(10px + env(safe-area-inset-bottom)); background: var(--bg); border-top: 1px solid var(--line); }
+.speed-row { display: flex; align-items: center; gap: 10px; }
+.speed-row label { font-weight: 700; }
+.speed-row input[type=range] { flex: 1; min-width: 0; height: 48px; accent-color: var(--accent); }
+.speed-row output { min-width: 6.5em; text-align: right; font-size: .95rem; }
+.btn-row { display: flex; gap: 8px; margin-top: 4px; }
+.btn-row .btn { flex: 1; padding: 0 6px; }
+.btn-row .btn.primary { flex: 1.6; }
+.btn-row.wrap { flex-wrap: wrap; margin-top: 8px; }
+#screen-player.playing #player-bar { display: none; }
+
+/* フォーム */
+.field { display: block; margin: 14px 0; font-weight: 700; }
+.field input[type=text], .field input[type=number], .field select, .field textarea {
+  display: block; width: 100%; margin-top: 6px; padding: 10px 12px; min-height: 48px; font: inherit; font-weight: 400; color: var(--text);
+  border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
+.field textarea { min-height: 50dvh; font-family: ui-monospace, "Noto Sans Mono CJK JP", "MS Gothic", monospace; line-height: 1.5; resize: vertical; }
+.check { display: flex; align-items: center; gap: 12px; min-height: 48px; margin: 6px 0; }
+.check input { width: 24px; height: 24px; accent-color: var(--accent); }
+h2 { font-size: 1.05rem; margin: 24px 0 8px; }
+.stepper { display: flex; gap: 8px; margin-top: 6px; }
+.stepper input { flex: 1; min-width: 0; text-align: center; margin: 0 !important; }
+.info { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; }
+.info dt { color: var(--sub); }
+.info dd { margin: 0; }
+
+/* ダイアログ類 */
+dialog { width: min(92vw, 420px); border: 0; border-radius: 18px; padding: 20px; color: var(--text); background: var(--bg); box-shadow: 0 10px 40px rgba(0,0,0,.3); }
+dialog::backdrop { background: rgba(40, 36, 30, .45); }
+dialog h2 { margin: 0 0 10px; font-size: 1.1rem; }
+dialog p { margin: 0 0 12px; line-height: 1.6; }
+.dlg-buttons { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.dlg-buttons .btn { width: 100%; text-align: center; }
+.dlg-buttons .btn.primary { min-height: 52px; font-size: 1rem; }
+#busy { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; background: rgba(40, 36, 30, .5); }
+.busy-box { width: min(86vw, 360px); padding: 22px; border-radius: 18px; background: var(--bg); text-align: center; }
+.busy-box progress { width: 100%; height: 14px; accent-color: var(--accent); }
+#toast { position: fixed; left: 50%; bottom: calc(160px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 60;
+  max-width: 88vw; padding: 12px 18px; border-radius: 12px; background: rgba(50, 46, 40, .92); color: #fff; font-size: .95rem; text-align: center; }
